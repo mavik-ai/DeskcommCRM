@@ -1612,9 +1612,11 @@ esac
   envq WAHA_API_KEY "$WAHA_API_KEY"
   envq WAHA_API_KEY_SHA512 "$WAHA_API_KEY_SHA512"
   envq WAHA_HMAC_SECRET "$WAHA_HMAC_SECRET"
-  printf '# "true" exige assinatura em todo webhook do WAHA. O WAHA Core NÃO assina,\n'
-  printf '# então ligar isto sem um WAHA Plus (ou proxy que assine) para a ingestão\n'
-  printf '# de mensagens. A rota global já não é publicada na internet (ver Caddyfile).\n'
+  printf '# "true" exige assinatura em todo webhook do WAHA. A imagem que este kit\n'
+  printf '# instala NAO assina (medido na 2026.7.2), entao ligar isto sem um proxy que\n'
+  printf '# assine PARA a ingestao de mensagens. Nao use "Plus vs Core" como criterio:\n'
+  printf '# a divisao acabou na 2026.6.1 e a imagem e uma so, sem licenca paga.\n'
+  printf '# A rota global ja nao e publicada na internet (ver Caddyfile).\n'
   envq WAHA_WEBHOOK_REQUIRE_SIGNATURE "${WAHA_WEBHOOK_REQUIRE_SIGNATURE:-false}"
   printf '# Retoma as sessões já pareadas quando o contêiner do transporte reinicia.\n'
   printf '# Sem isto o número segue pareado no volume e MUDO até alguém abrir a tela\n'

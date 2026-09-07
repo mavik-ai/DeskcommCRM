@@ -51,10 +51,13 @@ o custo de bumpá-las a cada release não se paga hoje; o item 4 do checklist ma
 `waha` e `srh` — que tocam WhatsApp e rate limit — estão pinadas de verdade (tag exata e
 digest). O gate reprova tag ausente ou `:latest`, não o major flutuante.
 
-**Nenhuma peça upstream vira imagem nossa.** Não por preguiça: WAHA Plus é licenciado, e
-redistribuir o binário de terceiro dentro de uma imagem nossa é passivo jurídico numa
-dependência crítica. Referência, nunca cópia — e a regra vale para todas, não só a licenciada,
-porque a exceção é o que apaga a regra.
+**Nenhuma peça upstream vira imagem nossa.** Não por preguiça: republicar o binário de
+terceiro dentro de uma imagem nossa é herdar o suporte de uma dependência crítica que não
+escrevemos — o cliente passa a rodar a NOSSA cópia de um motor de WhatsApp cujo ciclo de
+release não controlamos. Referência, nunca cópia. (Esta regra já se justificou pela licença
+do WAHA Plus, ~$30/mês; esse argumento morreu na 2026.6.1, quando o WAHA virou uma imagem
+só sob Apache 2.0. A regra não morreu com ele: valia para todas as peças, não só a
+licenciada, porque a exceção é o que apaga a regra.)
 
 ---
 

@@ -1,6 +1,6 @@
 # lib/waha/
 
-> Placeholder. Cliente real virá da Spec 03 — WhatsApp via WAHA Plus.
+> Placeholder. Cliente real virá da Spec 03 — WhatsApp via WAHA.
 
 Escopo previsto:
 

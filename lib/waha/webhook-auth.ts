@@ -15,11 +15,13 @@
  *  1. Assinatura presente que NÃO confere ⇒ rejeita. Sempre. Não existe motivo
  *     legítimo para alguém assinar errado, e era o buraco mais óbvio.
  *  2. `WAHA_WEBHOOK_REQUIRE_SIGNATURE=true` ⇒ exige assinatura válida em tudo.
- *     Fica desligado por padrão porque o WAHA **Core** não assina: medido nesta
- *     VPS (2026.7.2 CORE), os eventos reais chegam sem header algum mesmo com
+ *     Fica desligado por padrão porque a imagem medida nesta VPS (2026.7.2) não
+ *     assina: os eventos reais chegam sem header algum mesmo com
  *     `WHATSAPP_HOOK_HMAC` configurado no contêiner. Ligar isso por default
  *     derrubaria a ingestão de mensagens de todo mundo — remédio pior que a
- *     doença. Quem roda WAHA Plus (ou um proxy que assina) liga e ganha a
+ *     doença. O critério não é a EDIÇÃO do WAHA (a divisão Plus/Core acabou na
+ *     2026.6.1 — uma imagem só, Apache 2.0): é se a instalação assina de fato.
+ *     Quem tem assinatura chegando (ou um proxy que assina) liga e ganha a
  *     verificação forte.
  *  3. Sem assinatura e sem exigência ⇒ aceita, mas devolve `signatureVerified:
  *     false` — e quem chama grava ESSA verdade no log. Antes o log registrava

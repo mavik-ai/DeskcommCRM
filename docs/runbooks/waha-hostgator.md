@@ -31,7 +31,9 @@ owner: Rafael Melgaço
 1. Acesso SSH ao VPS (Hostgator entrega via cPanel ou root SSH; preferir SSH-only).
 2. Domínio com DNS gerenciado em Cloudflare (ou outro provider) — ex.: `waha.deskcomm.com.br`.
 3. Conta Backblaze B2 com bucket `deskcomm-waha-backup` (R$0,06/GB/mês ≈ $0.005/GB).
-4. Licença ativa **WAHA Plus** (`https://waha.devlike.pro` — ~$30/mês).
+4. ~~Licença ativa **WAHA Plus** (~$30/mês)~~ — **não existe mais.** Desde a 2026.6.1 o
+   multi-número, a mídia, os storages e a segurança embutida estão no `devlikeapro/waha`,
+   Apache 2.0, sem licença. Nada a comprar aqui.
 5. Vercel project com env vars `WAHA_API_BASE_URL`, `WAHA_API_KEY`, `WAHA_WEBHOOK_BASE_URL`, `WAHA_HMAC_SECRET` configurados (ainda apontando pra dev — atualizamos no fim).
 
 ---
@@ -133,7 +135,7 @@ Copiar (via `scp` ou `git clone`) o `docker-compose.yml` do repo (raiz do Deskco
 ```yaml
 services:
   waha:
-    image: devlikeapro/waha-plus@sha256:<DIGEST_PINADO>   # NÃO usar :latest
+    image: devlikeapro/waha@sha256:<DIGEST_PINADO>        # NÃO usar :latest
     ports:
       - "127.0.0.1:3000:3000"                             # bind localhost; Nginx termina TLS
     environment:
@@ -144,7 +146,7 @@ services:
       WAHA_DASHBOARD_ENABLED: "false"                     # sem dashboard em prod
 ```
 
-> **Pin de digest**: rode `docker pull devlikeapro/waha-plus:latest && docker inspect ... | jq -r '.[0].RepoDigests[0]'` e cole. Cada upgrade vira PR explícito (a gente já comeu uma migração silenciosa de env var nesse repo).
+> **Pin de digest**: rode `docker pull devlikeapro/waha:latest && docker inspect ... | jq -r '.[0].RepoDigests[0]'` e cole. Cada upgrade vira PR explícito (a gente já comeu uma migração silenciosa de env var nesse repo).
 
 ### 5.2 .env de produção
 

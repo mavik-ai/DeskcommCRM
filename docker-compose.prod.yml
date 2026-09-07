@@ -120,8 +120,10 @@ services:
     # inteira. Estourá-lo mata só quem estourou, e o `restart: unless-stopped`
     # o traz de volta — falha isolada em vez de queda geral.
     mem_limit: 1280m
-    # Core grátis por padrão; troque para devlikeapro/waha-plus via WAHA_IMAGE se
-    # precisar de multi-número/retry/S3 (licença paga).
+    # Uma imagem só. `devlikeapro/waha-plus` acabou na 2026.6.1: multi-número,
+    # mídia, storages e segurança embutida passaram para o `devlikeapro/waha`,
+    # Apache 2.0, sem licença paga. `WAHA_IMAGE` segue existindo como escape de
+    # pin, não como upgrade a comprar.
     #
     # Tag PINADA: `devlikeapro/waha` sem tag é `:latest`, e o `dc pull` do
     # update.sh entregava ao cliente qualquer versão que o upstream tivesse

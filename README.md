@@ -250,7 +250,7 @@ Toda tela tem porta na navegação — o CI reprova tela que existe mas em que s
 | **Auth** | Supabase Auth via `@supabase/ssr` | Cookie SameSite=Strict, HttpOnly |
 | **Realtime** | Supabase Realtime | postgres_changes + broadcast |
 | **Storage** | Supabase Storage (URLs assinadas) | Bucket privado `whatsapp-media` |
-| **WhatsApp** | WAHA Plus (engine NOWEB) + Meta Cloud API | QR pra começar rápido; canal oficial pra escala |
+| **WhatsApp** | WAHA (engine NOWEB, Apache 2.0, sem licença paga) + Meta Cloud API | QR pra começar rápido; canal oficial pra escala |
 | **Filas** | `event_log` table + workers (cron) | Trigger de banco nunca faz HTTP |
 | **Rate limit** | Upstash Redis (sliding window) | Serverless, free tier suficiente |
 | **AI** | Vercel AI SDK v7 — OpenRouter, Anthropic, OpenAI e Google | Instalador pergunta qual; troca depois pela tela |

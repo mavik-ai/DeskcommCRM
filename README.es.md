@@ -252,7 +252,7 @@ Toda pantalla tiene puerta en la navegación — el CI reprueba una pantalla que
 | **Auth** | Supabase Auth vía `@supabase/ssr` | Cookie SameSite=Strict, HttpOnly |
 | **Realtime** | Supabase Realtime | postgres_changes + broadcast |
 | **Storage** | Supabase Storage (URLs firmadas) | Bucket privado `whatsapp-media` |
-| **WhatsApp** | WAHA Plus (motor NOWEB) + Meta Cloud API | QR para empezar rápido; canal oficial para escalar |
+| **WhatsApp** | WAHA (motor NOWEB, Apache 2.0, sin licencia de pago) + Meta Cloud API | QR para empezar rápido; canal oficial para escalar |
 | **Colas** | Tabla `event_log` + workers (cron) | Un trigger de base nunca hace HTTP |
 | **Rate limit** | Upstash Redis (sliding window) | Serverless, el free tier alcanza |
 | **IA** | Vercel AI SDK v7 — OpenRouter, Anthropic, OpenAI y Google | El instalador pregunta cuál; se cambia después desde la pantalla |

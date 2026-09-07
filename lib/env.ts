@@ -145,10 +145,11 @@ const schema = z.object({
   // declarava aqui, então nunca teve como verificar nada.
   WAHA_HMAC_SECRET: z.string().optional().default(""),
   // "true" exige assinatura válida em todo webhook do WAHA. Fica desligado por
-  // padrão porque o WAHA Core não assina (medido: 2026.7.2 CORE manda os
-  // eventos sem header mesmo com WHATSAPP_HOOK_HMAC configurado), e exigir
-  // derrubaria a ingestão de mensagens. Ligue se usa WAHA Plus ou um proxy que
-  // assine — aí a verificação passa a ser obrigatória.
+  // padrão porque a imagem medida não assina (2026.7.2 manda os eventos sem
+  // header mesmo com WHATSAPP_HOOK_HMAC configurado), e exigir derrubaria a
+  // ingestão de mensagens. O critério NÃO é mais "Plus vs Core" — a divisão
+  // acabou na 2026.6.1 e a imagem é uma só; é se a instalação assina de fato.
+  // Ligue quando ela assinar, ou quando houver proxy assinando na frente.
   WAHA_WEBHOOK_REQUIRE_SIGNATURE: z.string().optional().default("false"),
 
   // Upstash Redis

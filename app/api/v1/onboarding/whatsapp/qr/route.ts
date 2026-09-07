@@ -5,7 +5,7 @@ import { loadAuthUser, resolveActiveOrg } from "@/lib/auth/server";
  * Proxy WAHA's QR endpoint so the browser can <img src="..." /> without
  * exposing the API key.
  *
- * WAHA Plus exposes: GET /api/{session}/auth/qr?format=image → image/png bytes.
+ * WAHA exposes: GET /api/{session}/auth/qr?format=image → image/png bytes.
  */
 export async function GET() {
   const user = await loadAuthUser();

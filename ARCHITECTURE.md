@@ -11,7 +11,7 @@
 - **Auth (Supabase Auth + `@supabase/ssr`)**: cookie SameSite=Strict. Sempre `getUser()` no server, nunca `getSession()`. **MFA TOTP é opcional e ligado por quem administra** — duas políticas independentes que somam (`platform_admins.mfa_required` e `organizations.settings.security.mfa_required`), ambas com padrão **não exigir**; regra pura em `lib/auth/politica-mfa.ts`. Esta linha dizia "forçado pra admin/super-admin", que era a regra antiga: como o `install.sh` cria o dono como platform admin, toda instalação self-host recebia um bloqueador de tela cheia logo após o onboarding. Cadastrar e provar são coisas diferentes — quem TEM fator prova na sessão sempre, independente da política.
 - **Realtime (Supabase Realtime)**: `postgres_changes` para inbox/kanban; `broadcast` para sinais leves.
 - **Storage (Supabase Storage)**: bucket `whatsapp-media` privado, URLs assinadas.
-- **WhatsApp (WAHA Plus / engine NOWEB)**: HMAC-SHA512 webhooks; throttle anti-banimento; STOP detection.
+- **WhatsApp (WAHA / engine NOWEB)**: HMAC-SHA512 webhooks; throttle anti-banimento; STOP detection.
 - **Filas (event sourcing leve)**: `event_log` table + workers via cron. Trigger Postgres NUNCA faz HTTP.
 - **Rate limit (Upstash Redis)**: contador de **janela fixa** (`INCR` + `EXPIRE`) em `lib/ai/dispatcher/rate-limit.ts`, com fallback in-memory quando Redis falta. ⚠️ Aplicado hoje em apenas 2 pontos (webhook de captação e dispatcher de IA) — o surface público de auth está sem. Ver [`docs/threat-model.md`](docs/threat-model.md) §T1.
 - **AI (Vercel AI Gateway)**: Anthropic primário, OpenAI backup pra embeddings.
@@ -70,7 +70,7 @@ pelos 10 endpoints em `app/api/v1/cron/`. Contrato: [`docs/specs/07-spec-events-
 | Serviço | Uso | Onde | Falta ⇒ |
 |---|---|---|---|
 | **Supabase** | Postgres + Auth + Realtime + Storage | `lib/supabase/{browser,server,admin}.ts` | app não sobe (obrigatório sempre) |
-| **WAHA Plus** (NOWEB) | WhatsApp: envio, recebimento, sessões multi-número | `lib/waha/` | canal indisponível; obrigatório em produção |
+| **WAHA** (NOWEB) | WhatsApp: envio, recebimento, sessões multi-número | `lib/waha/` | canal indisponível; obrigatório em produção |
 | **Upstash Redis** | rate limit + debounce de RAG | `lib/ai/dispatcher/rate-limit.ts`, `lib/ai/rag/debounce.ts` | degrada para memória com `warn` |
 | **Vercel AI Gateway** | LLM + embeddings (`@ai-sdk/anthropic\|openai\|google`) | `lib/ai/` | agente não responde |
 | **Nuvemshop** | e-commerce: pedidos, produtos, webhooks LGPD | `lib/nuvemshop/` | opcional (`NUVEMSHOP_ENABLED`) |

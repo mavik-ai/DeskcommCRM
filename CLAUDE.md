@@ -26,7 +26,7 @@ DeskcommCRM é um sistema operacional de vendas open source com agentes de IA na
 - **Auth:** Supabase Auth via `@supabase/ssr`. Cookie SameSite=Strict, HttpOnly, Secure
 - **Realtime:** Supabase Realtime (postgres_changes + broadcast)
 - **Storage:** Supabase Storage (bucket `whatsapp-media` privado, URLs assinadas)
-- **WhatsApp:** WAHA Plus, engine NOWEB
+- **WhatsApp:** WAHA (Apache 2.0), engine NOWEB
 - **Filas/eventos:** `event_log` table + workers (não usar Inngest/Trigger no MVP)
 - **Rate limit:** Upstash Redis sliding window
 - **AI:** Vercel AI Gateway (Anthropic primário; OpenAI backup pra embeddings); strings tipo `"anthropic/claude-sonnet-4-6"`
@@ -100,7 +100,14 @@ DeskcommCRM é um sistema operacional de vendas open source com agentes de IA na
 - Action audit obrigatória: `lgpd.data_request_received`, `lgpd.export_generated`, `lgpd.redact_executed`, `lgpd.consent_changed`
 
 ### WAHA
-- Plus obrigatório (Core não suporta multi-tenant, sem retry, sem S3)
+- **Não existe mais "Plus". Uma imagem só, Apache 2.0, sem licença paga.** Até a
+  versão 2026.6.1 o multi-número, a mídia, os storages e a "built-in security"
+  moravam no `devlikeapro/waha-plus` (~$30/mês), e este arquivo dizia "Plus
+  obrigatório". A partir dela tudo isso está no `devlikeapro/waha` — o compose de
+  produção já pinava a imagem grátis (`latest-2026.7.2`) enquanto a doutrina ainda
+  mandava comprar licença. Custo de licença WAHA numa instalação de cliente: **zero**.
+  Para conferir na fonte em vez de acreditar nesta linha:
+  `curl -s https://waha.devlike.pro/docs/how-to/waha-plus/ | grep -io 'available in.\{0,40\}WAHA Core'`
 - Engine NOWEB default; WEBJS apenas se precisar stickers animados / botões
 - Auth: env do WAHA recebe **hash SHA512 hex** da api key; cliente envia plaintext em `X-Api-Key`
 - Webhooks: HMAC SHA512 com `crypto.timingSafeEqual`
@@ -249,7 +256,8 @@ O não-negociável, em quatro linhas:
    última release usa `stable`. `pull_policy` acompanha a mutabilidade da tag:
    imutável → `missing`, móvel → `always`.
 4. **Dependência upstream é referenciada com tag fixa, nunca republicada.**
-   Vale para WAHA (licenciado — republicar é passivo jurídico), Redis, Caddy e
+   Vale para WAHA (não somos donos do ciclo de release dele; republicar é assumir
+   o suporte de um motor de WhatsApp que não escrevemos), Redis, Caddy e
    `serverless-redis-http`.
 
 Bump de versão **não pode** exigir que o operador da VPS edite `.env`, compose

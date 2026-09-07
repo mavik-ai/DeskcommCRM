@@ -184,7 +184,7 @@ PME brasileiro de e-commerce na **Nuvemshop**:
 | Supabase Pro | $25 + add-ons |
 | Hostgator VPS (WAHA, plano Turing, SP) | ~R$140 (~$28) |
 | Upstash Redis | $5–15 |
-| WAHA Plus | $30 |
+| WAHA | $0 (Apache 2.0 desde 2026.6.1; era $30 no Plus) |
 | Sentry Team | $26 |
 | AI (Anthropic via Gateway) | $50–300 / tenant (variável) |
 | **Total fixo** | **~$140/mês** |
@@ -200,7 +200,7 @@ PME brasileiro de e-commerce na **Nuvemshop**:
 |---|---|---|
 | **Banimento WAHA** (WhatsApp detecta API não-oficial) | 🔴 Crítico | Anti-banimento herdado (throttle, warm-up, spinning, STOP). Número backup pré-aquecido. Runbook documentado. |
 | **Mudança contratual Nuvemshop** | 🟠 Alto | Adapter pattern isola; testes de contrato no CI. |
-| **WAHA Plus banido upstream** | 🟠 Alto | BYO mode documentado; migração futura pra API oficial Meta planejada. |
+| **WAHA banido upstream** | 🟠 Alto | BYO mode documentado; migração futura pra API oficial Meta planejada. |
 | **Custo IA escala pior que receita** | 🟠 Alto | Orçamento por tenant + alarme 80% / throttle 100%; fallback Haiku. |
 | **LGPD multa primeiro tenant** | 🔴 Crítico | LGPD desde dia 1; revisão jurídica pré-produção; SLA D+7 com alarme em D+5. |
 | **Vazamento cross-tenant** | 🔴 Crítico | RLS em toda tabela; testes de isolamento no CI obrigatórios. |
