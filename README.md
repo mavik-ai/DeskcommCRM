@@ -474,18 +474,19 @@ Este é um projeto **self-host**: cada pessoa roda o CRM na **própria infraestr
 - **LGPD — atenção:** quem **hospeda** a instância é o **controlador** dos dados pessoais
   ali tratados (clientes, conversas, pedidos), com as obrigações legais decorrentes. Os
   mantenedores do projeto **não são** controladores nem operadores da sua instância, e não
-  têm acesso ao seu banco, ao seu WhatsApp nem ao seu storage. A única coisa que pode sair
-  da sua máquina para nós é o relatório de erro descrito abaixo — e só se você deixar.
-- **Telemetria (Sentry):** o `install.sh` **pergunta** durante a instalação e respeita a
-  sua resposta; em modo não-interativo, sem `SENTRY_DSN` definido, a telemetria fica
-  **desligada**. Se você aceitar o Sentry da comunidade, o que é enviado são **relatórios
-  de erro** (stack trace) com CPF, telefone e e-mail substituídos, cabeçalhos sensíveis
-  removidos, e token de webhook/convite redigido da URL — **sem** rastreamento de
-  performance e **sem** replay de sessão, que ficam em 0 nesse caminho. Para desligar a
-  qualquer momento: `SENTRY_DSN=off` no `.env`. Para mandar ao **seu** Sentry (aí sim com
-  performance e replay): `SENTRY_DSN=<seu-dsn>`. O que é redigido, e por quê, está em
-  [`lib/sentry/scrub.ts`](lib/sentry/scrub.ts); a resolução do DSN em
-  [`lib/sentry/dsn.ts`](lib/sentry/dsn.ts).
+  têm acesso ao seu banco, ao seu WhatsApp nem ao seu storage. **Nada sai da sua máquina
+  para nós** — nem relatório de erro.
+- **Telemetria (Sentry): desligada, e sem destino de fábrica.** `SENTRY_DSN` vazio — o
+  padrão de toda instalação — significa que o SDK fica inerte e nenhum evento é enviado a
+  lugar nenhum. Até 2026-09-07 havia um DSN embutido no código: quem não configurasse nada
+  mandava stack trace para o Sentry do projeto. Isso foi removido, e um teste
+  ([`tests/unit/sentry-sem-destino-de-fabrica.test.ts`](tests/unit/sentry-sem-destino-de-fabrica.test.ts))
+  reprova o retorno de qualquer DSN literal no código. Para ter relatórios de erro,
+  aponte o **seu**: `SENTRY_DSN=<seu-dsn>`. Seja qual for o destino, CPF, telefone e
+  e-mail são substituídos, cabeçalhos sensíveis removidos e token de webhook/convite
+  redigido da URL — ver [`lib/sentry/scrub.ts`](lib/sentry/scrub.ts); a resolução do DSN
+  em [`lib/sentry/dsn.ts`](lib/sentry/dsn.ts). Para conferir você mesmo:
+  `grep -rn "ingest.*sentry\.io" lib/ app/ workers/ *.ts` — não deve achar nada.
 
 ---
 

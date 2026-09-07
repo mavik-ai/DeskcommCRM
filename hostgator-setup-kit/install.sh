@@ -1350,33 +1350,16 @@ fi
 # 'traefik', então a variável está pronta para o .env logo abaixo.
 garantir_rede_do_proxy
 
-# ── Telemetria: perguntar, não presumir ─────────────────────────────────────
-# Issue #100. Antes, quem não definisse SENTRY_DSN mandava relatório de erro pro
-# Sentry da comunidade sem ter decidido nada — e só ficava sabendo na mensagem
-# final, DEPOIS de instalado. Num produto que roda na infraestrutura do usuário,
-# com dados de clientes dele, o consentimento vem antes.
-# Quem já tem valor no .env manda: a pergunta não sobrescreve escolha anterior.
+# ── Telemetria: não existe mais o que perguntar ─────────────────────────────
+# Issue #100 fez o instalador PERGUNTAR antes de mandar relatório de erro para o
+# Sentry do projeto. A pergunta existia porque existia um destino de fábrica: com
+# SENTRY_DSN vazio, `lib/sentry/dsn.ts` caía num DSN embutido. Esse destino foi
+# removido — vazio agora significa DESLIGADO, e nada sai desta VPS a menos que
+# quem opera aponte o próprio Sentry. Sem destino de fábrica não há consentimento
+# a colher, então o passo saiu do wizard: um passo a menos numa instalação nova.
+# Quem já tem valor no .env manda: nada aqui sobrescreve escolha anterior.
 if [ -z "${SENTRY_DSN+x}" ]; then
-  if [ "$NONINTERACTIVE" = 1 ]; then
-    # Automação não consente por ninguém. Sem valor explícito, fica desligado.
-    SENTRY_DSN="off"
-  else
-    step "Telemetria de erros (opcional)"
-    printf '%s\n' "Podemos receber os relatórios de ERRO desta instalação (stack trace) para"
-    printf '%s\n' "corrigir bugs que afetam todo mundo. CPF, telefone e e-mail são substituídos,"
-    printf '%s\n' "cabeçalhos sensíveis removidos e tokens de webhook/convite redigidos da URL."
-    printf '%s\n' "NÃO enviamos rastreamento de performance nem replay de sessão."
-    printf '%s\n' "Seus dados de clientes, conversas e banco NUNCA saem daqui."
-    printf '\n%s\n' "Você pode mudar depois no .env, a qualquer momento."
-    read -r -p "  Enviar relatórios de erro anonimizados? (s/N) " _tel
-    if resposta_sim "${_tel:-}"; then
-      SENTRY_DSN=""
-      c_grn "✓ Telemetria de erros ligada — obrigado, isso ajuda o projeto."
-    else
-      SENTRY_DSN="off"
-      c_grn "✓ Telemetria desligada — nada será enviado."
-    fi
-  fi
+  SENTRY_DSN=""
 fi
 
 step "Escrevendo .env"
@@ -1593,11 +1576,11 @@ esac
   printf '# e cole as duas chaves aqui (depois: docker compose up -d app).\n'
   envq VAPID_PUBLIC_KEY "${VAPID_PUBLIC_KEY:-}"
   envq VAPID_PRIVATE_KEY "${VAPID_PRIVATE_KEY:-}"
-  printf '# Telemetria de erros (você escolheu isto durante a instalação).\n'
-  printf '#   "off"  = não envia nada.\n'
-  printf '#   vazio  = só ERRO pro Sentry da comunidade, com CPF/telefone/e-mail\n'
-  printf '#            substituídos e token de URL redigido. Sem trace, sem replay.\n'
-  printf '#   <dsn>  = manda pro SEU Sentry (aí com performance e replay).\n'
+  printf '# Telemetria de erros. Vazio = DESLIGADO, e nao existe destino de fabrica:\n'
+  printf '# nada sai desta maquina para o autor do software nem para quem o revendeu.\n'
+  printf '#   vazio  = desligado (padrao)\n'
+  printf '#   <dsn>  = manda pro SEU Sentry. CPF/telefone/e-mail sao substituidos e\n'
+  printf '#            token de URL e redigido antes do envio (lib/sentry/scrub.ts).\n'
   envq SENTRY_DSN "${SENTRY_DSN:-}"
   envq INTERNAL_SECRET "$INTERNAL_SECRET"
   envq INTERNAL_CRON_SECRET "$INTERNAL_CRON_SECRET"
